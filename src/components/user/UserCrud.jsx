@@ -11,8 +11,6 @@ const headerProps = {
     subtitle: 'Cadastro de Usuários: Incluir, Listar, Alterar e Excluir'
 }
 
-const baseUrl = 'http://localhost:3001/users'
-
 const initialState = {
     user: {
         name: '',
@@ -49,13 +47,20 @@ export default class UserCrud extends React.Component {
 
     save() {
         const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
 
         if (user.name === '' || user.email === '') {
             NotificationManager.warning('Nome e e-mail obrigatórios', 'Preencha os campos')
-        } 
+            return
+        }
 
+        const existingUser = this.state.list.find(u => u.id === user.id)
+
+        if (!existingUser) {
+            user.id = Date.now()
+        }
+
+        const list = this.getUpdatedList(user)
+        this.setState({ list, user: initialState.user })
     }
 
     getUpdatedList(user, add = true) {
@@ -76,12 +81,16 @@ export default class UserCrud extends React.Component {
     }
 
     remove(user) {
+        const list = this.state.list.filter(u => u.id !== user.id)
+        this.setState({ list })
     }
 
     render() {
         return (
             <Main {...headerProps}>
-                <Userform name={this.state.user.name}
+                <Userform 
+                    id={this.state.user.id}
+                    name={this.state.user.name}
                     email={this.state.user.email}
                     clear={this.clear}
                     save={this.save}

@@ -10,8 +10,6 @@
 
   * `npm install`
 
-  * `json-server -p 3001 db.json`
-
   * `npm start`
   
 * Caso a aplicação rode normalmente, estará disponível em `localhost:3000`

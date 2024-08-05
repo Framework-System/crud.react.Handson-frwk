@@ -3,6 +3,9 @@ import React from 'react'
 export default props =>
     <div className="form">
         <div className="row">
+            <div className="col-12 col-md-12">
+                <label>ID: <span>{props.id}</span></label>
+            </div>
             <div className="col-12 col-md-6">
                 <div className="form-group">
                     <label>Nome</label>
