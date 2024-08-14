@@ -14,7 +14,9 @@ const headerProps = {
 const initialState = {
     user: {
         name: '',
-        email: ''
+        email: '',
+        password: '',
+        confirmPassword: ''
     },
     list: []
 }
@@ -48,8 +50,13 @@ export default class UserCrud extends React.Component {
     save() {
         const user = this.state.user
 
-        if (user.name === '' || user.email === '') {
-            NotificationManager.warning('Nome e e-mail obrigatórios', 'Preencha os campos')
+        if (user.name === '' || user.email === '' || user.password === '' || user.confirmPassword === '') {
+            NotificationManager.warning('Todos os campos são obrigatórios', 'Preencha os campos')
+            return
+        }
+
+        if (user.password !== user.confirmPassword) {
+            NotificationManager.warning('As senhas não coincidem', 'Erro de validação')
             return
         }
 
@@ -92,6 +99,8 @@ export default class UserCrud extends React.Component {
                     id={this.state.user.id}
                     name={this.state.user.name}
                     email={this.state.user.email}
+                    password={this.state.user.password}
+                    confirmPassword={this.state.user.confirmPassword}
                     clear={this.clear}
                     save={this.save}
                     updateField={this.updateField}
